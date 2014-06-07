@@ -15,8 +15,8 @@ public class DataArray {
     enum FileType {
         FULL, ON, OFF
     }
-    FileType fileType;
-    List<DataRow> dataRows;
+    public FileType fileType;
+    private List<DataRow> dataRows;
     DataArray (String filePath) throws IOException {
         String fileName = filePath.substring(8);
         if (fileName.equals("on.log")) {
@@ -58,5 +58,9 @@ public class DataArray {
             dataRow.syncSignal = Integer.parseInt(stringArray[18]);
         }
 
+    }
+
+    public DataRow getDataRow(int index) {
+        return dataRows.get(index);
     }
 }
