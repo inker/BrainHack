@@ -48,21 +48,11 @@ public class DataArray {
             String[] stringArray = line.split(",");
             DataRow dataRow = new DataRow();
             dataRow.counter = Integer.parseInt(stringArray[0]);
-            dataRow.sensors = new HashMap<DataRow.SensorNames, Float>();
-            dataRow.sensors.put(DataRow.SensorNames.AF3, Float.parseFloat(stringArray[1]));
-            dataRow.sensors.put(DataRow.SensorNames.F7, Float.parseFloat(stringArray[2]));
-            dataRow.sensors.put(DataRow.SensorNames.F3, Float.parseFloat(stringArray[3]));
-            dataRow.sensors.put(DataRow.SensorNames.FC5, Float.parseFloat(stringArray[4]));
-            dataRow.sensors.put(DataRow.SensorNames.T7, Float.parseFloat(stringArray[5]));
-            dataRow.sensors.put(DataRow.SensorNames.P7, Float.parseFloat(stringArray[6]));
-            dataRow.sensors.put(DataRow.SensorNames.O1, Float.parseFloat(stringArray[7]));
-            dataRow.sensors.put(DataRow.SensorNames.O2, Float.parseFloat(stringArray[8]));
-            dataRow.sensors.put(DataRow.SensorNames.P8, Float.parseFloat(stringArray[9]));
-            dataRow.sensors.put(DataRow.SensorNames.T8, Float.parseFloat(stringArray[10]));
-            dataRow.sensors.put(DataRow.SensorNames.FC6, Float.parseFloat(stringArray[11]));
-            dataRow.sensors.put(DataRow.SensorNames.F4, Float.parseFloat(stringArray[12]));
-            dataRow.sensors.put(DataRow.SensorNames.F8, Float.parseFloat(stringArray[13]));
-            dataRow.sensors.put(DataRow.SensorNames.AF4, Float.parseFloat(stringArray[14]));
+            dataRow.sensors = new HashMap<SensorNames, Float>();
+            int i = 0;
+            for (SensorNames sensorName : SensorNames.values()) {
+                dataRow.sensors.put(sensorName, Float.parseFloat(stringArray[++i]));
+            }
             dataRow.gyro = new Pair<Integer, Integer>(Integer.parseInt(stringArray[15]), Integer.parseInt(stringArray[16]));
             dataRow.timestamp = Float.parseFloat(stringArray[17]);
             dataRow.funcId = Integer.parseInt(stringArray[18]);
