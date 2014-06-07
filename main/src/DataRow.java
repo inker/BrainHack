@@ -26,7 +26,8 @@ public class DataRow {
     }
 
     public float getByIndex(int index) {
-        if (index < 15 && index != 0) {
+        if (index == 0) return counter;
+        if (index < 15) {
             return sensors.get(SensorNames.values()[index - 1]);
         }
         switch (index) {
