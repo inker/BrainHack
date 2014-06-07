@@ -5,6 +5,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -70,14 +71,26 @@ public class DataArray {
             dataRow.syncSignal = Integer.parseInt(stringArray[21]);
             dataRows.add(dataRow);
         }
-
+        br.close();
     }
 
     public DataRow getDataRow(int index) {
         return dataRows.get(index);
     }
 
-    public void export(Path filePath) {
+    public void export(String filePath, char delimiter) throws IOException {
+        export(FileSystems.getDefault().getPath(filePath), delimiter);
+        throw new NotImplementedException();
+    }
+
+    public void export(Path filePath, char delimiter) throws IOException {
+        String fileString = filePath.getFileName().toString();
+        if (fileString.substring(fileString.lastIndexOf('.')).equals(".csv")) {
+            PrintWriter out = new PrintWriter(filePath.toString());
+            //out.println()
+        } else {
+            throw new WrongDocumentException("wrong file format, CSV required");
+        }
         throw new NotImplementedException();
     }
 }

@@ -13,8 +13,8 @@ public class Main {
         } else {
             System.out.println("bad");
         }
-        for (DataRow row : data.dataRows) {
-            System.out.println(row.sensors.get(DataRow.SensorNames.AF4));
-        }
+        //for (DataRow row : data.dataRows) {
+        //    System.out.println(row.sensors.get(DataRow.SensorNames.AF4));
+        //}
     }
 }
