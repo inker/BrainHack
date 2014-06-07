@@ -101,6 +101,42 @@ public class DataArray {
         }
     }
 
+    public void normalize() {
+        normalize(0.f, 1.f);
+    }
+
+    public void normalize(float max) {
+        normalize(0.f, max);
+    }
+
+    public void normalize(float min, float max) {
+        DataRow minimum = new DataRow();
+        DataRow maximum = new DataRow();
+
+        for (int i = 0; i < 22; ++i) {
+            maximum.setByIndex(i, 0.f);
+            minimum.setByIndex(i, 99999999999999999.f);
+        }
+        for (DataRow row : dataRows) {
+            float[] array = row.toArray();
+            for (int i = 0; i < 22; ++i) {
+                float value = row.getByIndex(i);
+                if (value < minimum.getByIndex(i)) {
+                    minimum.setByIndex(i, value);
+                }
+                if (value > maximum.getByIndex(i)) {
+                    maximum.setByIndex(i, value);
+                }
+            }
+        }
+        for (DataRow row : dataRows) {
+            for (int i = 0; i < 22; ++i) {
+                float minVal = minimum.getByIndex(i), maxVal = maximum.getByIndex(i);
+                row.setByIndex(i, (row.getByIndex(i) - minVal) / (maxVal - minVal));
+            }
+        }
+    }
+
     public void split() throws IOException {
         // to be implemented
         DataArray onArray = new DataArray();
