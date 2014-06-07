@@ -19,8 +19,11 @@ public class DataArray {
     static public enum FileType {
         FULL, ON, OFF
     }
+    private Path filePath;
     public FileType fileType;
     public List<DataRow> dataRows;
+
+    private DataArray() {}
 
     public DataArray(String filePath) throws IOException {
         parseFromFile(FileSystems.getDefault().getPath(filePath));
@@ -31,6 +34,7 @@ public class DataArray {
     }
 
     private void parseFromFile(Path filePath) throws IOException {
+        this.filePath = filePath;
         if (filePath.endsWith("on.log")) {
             fileType = FileType.ON;
         } else if (filePath.endsWith("off.log")) {
@@ -68,23 +72,44 @@ public class DataArray {
         return dataRows.get(index);
     }
 
-    public void export(String filePath, char delimiter) throws IOException {
-        export(FileSystems.getDefault().getPath(filePath), delimiter);
+    public void export(String outFilePath, char delimiter) throws IOException {
+        export(FileSystems.getDefault().getPath(outFilePath), delimiter);
         throw new NotImplementedException();
     }
 
-    public void export(Path filePath, char delimiter) throws IOException {
-        String fileString = filePath.getFileName().toString();
+    public void export(Path outFilePath, char delimiter) throws IOException {
+        String fileString = outFilePath.getFileName().toString();
         if (fileString.substring(fileString.lastIndexOf('.')).equals(".csv")) {
-            PrintWriter out = new PrintWriter(filePath.toString());
-            //out.println()
+            PrintWriter out = new PrintWriter(outFilePath.toString());
+            for (DataRow row : dataRows) {
+                StringBuffer sb = new StringBuffer();
+                sb.append(row.counter).append(delimiter);
+                for (SensorNames sensorName : SensorNames.values()) {
+                    sb.append(row.sensors.get(sensorName)).append(delimiter);
+                }
+                sb.append(row.gyro.getKey()).append(delimiter)
+                        .append(row.gyro.getValue()).append(delimiter)
+                        .append(row.timestamp).append(delimiter)
+                        .append(row.funcId).append(delimiter)
+                        .append(row.funcValue).append(delimiter)
+                        .append(row.marker).append(delimiter)
+                        .append(row.syncSignal).append(delimiter);
+                out.println(sb);
+            }
         } else {
             throw new WrongDocumentException("wrong file format, CSV required");
         }
-        throw new NotImplementedException();
     }
 
-    public void split() {
+    public void split() throws IOException {
+        // to be implemented
+        DataArray onArray = new DataArray();
+        DataArray offArray = new DataArray();
+        String parentPathString = filePath.getParent().toString();
+        Path onPath = FileSystems.getDefault().getPath(parentPathString, "on.log");
+        Path offPath = FileSystems.getDefault().getPath(parentPathString, "off.log");
+        onArray.export(onPath, ',');
+        offArray.export(offPath, ',');
         throw new NotImplementedException();
     }
 }
