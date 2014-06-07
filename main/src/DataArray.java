@@ -93,4 +93,8 @@ public class DataArray {
         }
         throw new NotImplementedException();
     }
+
+    public void split() {
+        throw new NotImplementedException();
+    }
 }
