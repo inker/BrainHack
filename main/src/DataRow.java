@@ -31,7 +31,6 @@ public class DataRow {
             return sensors.get(SensorNames.values()[index - 1]);
         }
         switch (index) {
-            case 0: return counter;
             case 15: return gyro.getKey();
             case 16: return gyro.getValue();
             case 17: return funcId;
