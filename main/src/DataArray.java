@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -52,7 +51,6 @@ public class DataArray {
             String[] stringArray = line.split(",");
             DataRow dataRow = new DataRow();
             dataRow.counter = Integer.parseInt(stringArray[0]);
-            dataRow.sensors = new HashMap<SensorNames, Float>();
             int i = 0;
             for (SensorNames sensorName : SensorNames.values()) {
                 dataRow.sensors.put(sensorName, Float.parseFloat(stringArray[++i]));

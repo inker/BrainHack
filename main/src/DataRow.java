@@ -1,5 +1,6 @@
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataRow {
@@ -23,7 +24,10 @@ public class DataRow {
         this.syncSignal = syncSignal;
     }
 
-    public DataRow() {}
+    public DataRow() {
+        sensors = new HashMap<SensorNames, Float>();
+        gyro = new Pair<Integer, Integer>(0, 0);
+    }
 
     public float getByIndex(int index) {
         switch (index) {
@@ -65,6 +69,7 @@ public class DataRow {
             default: {
                 if (index < 15) {
                     sensors.put(SensorNames.values()[index - 1], value);
+                    break;
                 }
                 throw new IndexOutOfBoundsException();
             }
@@ -94,5 +99,11 @@ public class DataRow {
             setByIndex(i, getByIndex(i) - row.getByIndex(i));
         }
         return this;
+    }
+
+    public void zeroFill() {
+        for (int i = 0; i < 22; ++i) {
+            setByIndex(i, 0);
+        }
     }
 }
